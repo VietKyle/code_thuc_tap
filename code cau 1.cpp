@@ -30,7 +30,7 @@ int main()
 	Contact c;
 	f = fopen(fileName,"rb");
 	do{ 
-		cout << "chon thao tac------------------------- "<<endl;;
+		cout << "chon thao tac------------------------------ "<<endl;;
 		cout << "1.Them Contact\n";
 		cout << "2.Xem Danh ba\n";
 		cout << "3.Xoa Contact\n";
