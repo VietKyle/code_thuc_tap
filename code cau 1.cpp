@@ -17,29 +17,61 @@ FILE *f;
 void docDBaTuFile ();
 void ghiDBaVaoFile ();
 void ThemMoi(Contact c);
+void nhap(Contact &c);
 void xuat(Contact c);
 void LietKeDB();
-void CapNhat(Contact c);
+int TimSDT(char sdt[]);
+void Xoa(char sdt[]);
+void Sua(char sdt[]); 
 int main()
 {
-	Contact c,c1;
-	strcpy(c.ten,"Thu");
-	c.gt = 1;
-	strcpy(c.sdt, "012345");
-	strcpy(c.mail, "mailduocthem@");
-	strcpy(c.DC,"Khanh Hoa");
-	strcpy(c1.ten,"Thu1");
-	c1.gt = 0;
-	strcpy(c1.sdt, "0123456");
-	strcpy(c1.mail, "mailthem@");
-	strcpy(c1.DC,"Quang Ngai");
-	cout << "so danh ba " <<DBa.size();
-	ThemMoi(c);
-	cout << "so danh ba " <<DBa.size();
-	ThemMoi(c1);
-	cout << "so danh ba " <<DBa.size();
-	LietKeDB();
+	int a;
+	char s[50];
+	Contact c;
+	DBa.clear();
+	do{ 
+		if (DBa.size()==0){
+			cout << "Danh Ba trong, can them Contact\n";cin.sync();
+			nhap(c);
+			ThemMoi(c);
+		}
+		else{
+		cout << "chon thao tac-------------------------\n";
+		cout << "1.Them Contact\n";
+		cout << "2.Xem Danh ba\n";
+		cout << "3.Xoa Contact\n";
+		cout << "4.Sua Contact\n";
+		cout << "5.Tim Contact\n";
+		cout << "6.Thoat\n";
+		cin >> a;
+		switch(a){
+			case 1: cout<< "nhap Contact can them:\n";cin.sync();
+					nhap(c);
+					ThemMoi(c);break;
+			case 2: LietKeDB();break;
+			case 3: cout << "nhap sdt can xoa:";cin.sync();
+					cin.getline(s,50);
+					cin.sync();
+					Xoa(s);
+					break;
+			case 4: cout << "nhap sdt can sua:";cin.sync();
+					cin.getline(s,50);cin.sync();
+					Sua(s);
+					break;
+			case 5: cout << "nhap sdt can tim:";cin.sync();
+					cin.getline(s,50);
+					cin.sync();
+					if (TimSDT(s)!=-1)
+						xuat(DBa[TimSDT(s)]);
+					else cout << "ko tim thay sdt\n";
+					break;
+			case 6: break;
+			}
+		}
+	} 	while(a!=6);
 }
+
+// ket thuc ham main
 void docDBaTuFile(){
 	FILE *f = fopen(fileName,"rb");
 	if(f!=NULL){
@@ -68,13 +100,60 @@ void ghiDBaVaoFile(){
 	}
 	fclose(f);
 }
+void nhap(Contact &c){
+	char s[50];
+	cout << "ten:"; cin.getline(s,50); strcpy(c.ten,s);cin.sync();
+	cout << "gioi tinh:"; cin.getline(s,50); c.gt = atoi(s); cin.sync();
+	cout << "SDT:"; cin.getline(s,50); strcpy(c.sdt,s);cin.sync();
+	cout << "mail:"; cin.getline(s,50); strcpy(c.mail,s);cin.sync();
+	cout << "Dia chi:"; cin.getline(s,50); strcpy(c.DC,s);cin.sync();
+}
 void xuat(Contact c){
+	cout<<"-----------------------------------------------\n";
 	cout << "\nten:"<<c.ten<<"\ngioi tinh:"<<c.gt<<"\n so dien thoai:"<<c.sdt<<"\nmail:"<<c.mail<<"\ndia chi:"<< c.DC << endl;
+	cout<<"-----------------------------------------------\n";
 }
 void LietKeDB(){
 	docDBaTuFile();
 	for (int i=0;i<DBa.size();i++){
-		cout << i <<endl;
+		cout<<"["<<i<<"]\n";
 		xuat(DBa[i]);
 	}
+}
+int TimSDT(char sdt[]){
+	docDBaTuFile();
+	Contact c;
+	for (int i=0;i<DBa.size();i++){
+		c = DBa[i];
+		if (strcmp(c.sdt,sdt)==0)
+			return i;
+	}
+	return -1;
+}
+void Xoa(char sdt[]){
+	docDBaTuFile();
+	int i=TimSDT(sdt);
+	if (i!=-1){
+		DBa.erase(DBa.begin()+i);
+		ghiDBaVaoFile ();
+	}
+	else cout << "ko tim thay sdt\n";
+}
+void Sua(char sdt[]){
+	docDBaTuFile();
+	Contact c;
+	char s[50];
+	int i=TimSDT(sdt);
+	if (i!=-1){
+		cout << "nhap thong tin da chinh sua:--------------\n";cin.sync();
+		cout << "ten:"; cin.getline(s,50); strcpy(c.ten,s);
+		cout << "gioi tinh:"; cin.getline(s,50); c.gt = atoi(s); cin.sync();
+		cout << "SDT:"; cin.getline(s,50); strcpy(c.sdt,s);
+		cout << "mail:"; cin.getline(s,50); strcpy(c.mail,s);
+		cout << "Dia chi:"; cin.getline(s,50); strcpy(c.DC,s);
+		DBa.insert(DBa.begin()+i,c);
+		DBa.erase(DBa.begin()+i+1);
+		ghiDBaVaoFile ();
+	}
+	else cout << "ko tim thay sdt ==> ko xoa\n";	
 }
