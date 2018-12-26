@@ -20,7 +20,7 @@ void ThemMoi(Contact c);
 void nhap(Contact &c);
 void xuat(Contact c);
 void LietKeDB();
-int TimSDT(char sdt[]);
+int Tim(char Data[], char kieu[]);
 void Xoa(char sdt[]);
 void Sua(char sdt[]); 
 int main()
@@ -28,21 +28,16 @@ int main()
 	int a;
 	char s[50];
 	Contact c;
-	DBa.clear();
+	f = fopen(fileName,"rb");
 	do{ 
-		if (DBa.size()==0){
-			cout << "Danh Ba trong, can them Contact\n";cin.sync();
-			nhap(c);
-			ThemMoi(c);
-		}
-		else{
-		cout << "chon thao tac-------------------------\n";
+		cout << "chon thao tac------------------------- "<<endl;;
 		cout << "1.Them Contact\n";
 		cout << "2.Xem Danh ba\n";
 		cout << "3.Xoa Contact\n";
 		cout << "4.Sua Contact\n";
-		cout << "5.Tim Contact\n";
-		cout << "6.Thoat\n";
+		cout << "5.Tim Contact theo sdt\n";
+		cout << "6.Tim Contact theo ten\n";
+		cout << "7.Thoat\n-----------------------------------\n";
 		cin >> a;
 		switch(a){
 			case 1: cout<< "nhap Contact can them:\n";cin.sync();
@@ -61,14 +56,20 @@ int main()
 			case 5: cout << "nhap sdt can tim:";cin.sync();
 					cin.getline(s,50);
 					cin.sync();
-					if (TimSDT(s)!=-1)
-						xuat(DBa[TimSDT(s)]);
+					if (Tim(s,"sdt")!=-1)
+						xuat(DBa[Tim(s,"sdt")]);
 					else cout << "ko tim thay sdt\n";
 					break;
-			case 6: break;
+			case 6: cout << "nhap ten can tim:";cin.sync();
+					cin.getline(s,50);cin.sync();
+					if (Tim(s,"ten")!=-1)
+						xuat(DBa[Tim(s,"ten")]);
+					else cout << "ko tim thay ten\n";
+					break;
+			case 7: break;
 			}
 		}
-	} 	while(a!=6);
+ 	while(a!=7);
 }
 
 // ket thuc ham main
@@ -82,7 +83,6 @@ void docDBaTuFile(){
 		}
 		DBa.pop_back();
 	}
-	fclose(f);
 }
 void ThemMoi(Contact c){
 	DBa.push_back(c);
@@ -91,14 +91,12 @@ void ThemMoi(Contact c){
 }
 void ghiDBaVaoFile(){
 	FILE *f;
-	remove(fileName);
 	f = fopen(fileName,"wb");
 	Contact c;
 	for (int i=0;i<DBa.size();i++){
 		c = DBa[i];
-		fwrite(&c,sizeof(Contact),0,f);
+		fwrite(&c,sizeof(Contact),1,f);
 	}
-	fclose(f);
 }
 void nhap(Contact &c){
 	char s[50];
@@ -115,24 +113,35 @@ void xuat(Contact c){
 }
 void LietKeDB(){
 	docDBaTuFile();
+	if (DBa.size()==0)
+		cout << "danh ba trong:\n";
+	else 
 	for (int i=0;i<DBa.size();i++){
 		cout<<"["<<i<<"]\n";
 		xuat(DBa[i]);
 	}
 }
-int TimSDT(char sdt[]){
+int Tim(char Data[], char Loai[]){
 	docDBaTuFile();
 	Contact c;
+	
 	for (int i=0;i<DBa.size();i++){
 		c = DBa[i];
-		if (strcmp(c.sdt,sdt)==0)
-			return i;
+		if (strcmp(Loai,"sdt")==0){
+			if (strcmp(c.sdt,Data)==0)
+				return i;
+			}
+		else if (strcmp(Loai,"ten")==0){
+			if (strcmp(c.ten,Data)==0)
+				return i;
+			}
+			
 	}
 	return -1;
 }
 void Xoa(char sdt[]){
 	docDBaTuFile();
-	int i=TimSDT(sdt);
+	int i=Tim(sdt,"sdt");
 	if (i!=-1){
 		DBa.erase(DBa.begin()+i);
 		ghiDBaVaoFile ();
@@ -143,7 +152,7 @@ void Sua(char sdt[]){
 	docDBaTuFile();
 	Contact c;
 	char s[50];
-	int i=TimSDT(sdt);
+	int i=Tim(sdt,"sdt");
 	if (i!=-1){
 		cout << "nhap thong tin da chinh sua:--------------\n";cin.sync();
 		cout << "ten:"; cin.getline(s,50); strcpy(c.ten,s);
