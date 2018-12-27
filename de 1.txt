@@ -1,0 +1,59 @@
+super man ten that la gi?
+	Clark Kent
+	Kal El
+	Dap an khac
+B
+
+5 x 7 = ?
+	30
+	34
+	35
+C
+
+"book" co nghia la?
+	sach
+	dat truoc
+	ca 2
+C
+
+IOS la?
+	hang dien thoai
+	mat ma
+	ten rieng
+A
+
+ax + b = 0 la?
+	PT bac 1
+	PT bac 2
+	PT bac 3
+A
+
+1110(2) = ? (10)
+	12
+	14
+	16
+B
+
+a=8; b++ = a++; a=?
+	11
+	10
+	9
+C
+
+10110101(2) = ? (16)
+	B7
+	C5
+	B5
+C
+
+2 con vit di truoc 2 con vit, 2 con vit di sau 2 con vit, 2 con vit di giua 2 con vit. Hoi co may con vit?
+	4
+	6
+	8
+A
+
+25(16) = ? (2)
+	01000101
+	00100101
+	00101010
+B
