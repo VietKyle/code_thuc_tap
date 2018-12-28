@@ -11,30 +11,38 @@ struct Question{
 	string dC;
 	string A;
 };
+struct Player{
+	string Name;
+	int diem;
+};
 vector <Question> CauHoi;
 Question CH;
 //FILE *f = fopen("de 1","rt");
 char De[5];
+Player NC;
 void ChonDe();
-int diem;
 int BangDiem[50];
 ifstream f;
 void docDe();
-void QandA(int &diem); 
-void Luudiem(int &diem);
+void QandA(); 
+void Luudiem(Player &NC);
+void Xuatdiem();
 int main()
 {
 	ChonDe();
-	diem = 0;
-	QandA(diem);
-	Luudiem(diem);
+	QandA();
+	Luudiem(NC);
+	Xuatdiem();
 }
-void ChonDe(){
-	cout << "nhap ma de (De 1, De 2, De 3, De 4):";
+void ChonDe(){   // --------- Chon de va luu lai ten nguoi choi ----------
+	fstream fo("Diem.txt",ios::out | ios::app);
+	cout << "nhap ten nguoi choi: "; cin >> NC.Name; cin.sync(); // nhap ten nguoi choi
+	fo <<"\n"<< NC.Name;
+	cout << "nhap ma de (De 1, De 2, De 3, De 4):"; // chon de: co 4 bo de
 	cin.getline(De,5);
-	strcat(De,".txt\0");
+	strcat(De,".txt\0"); // noi duoi .txt vao ten bo de de mo file
 }
-void docDe(){
+void docDe(){ // doc du lieu tu bo de
 	ifstream f(De);
 	if(f!=NULL){
 		Question ch;
@@ -46,16 +54,16 @@ void docDe(){
 			getline(f,ch.dC);
 			getline(f,ch.A);
 			getline(f,s);
-			CauHoi.push_back(ch);
+			CauHoi.push_back(ch); // luu vao mot vector de quan ly
 		}
 	f.close();
 	}
 }
-void QandA(int &diem){
+void QandA(){
 	docDe();
 	Question CH;
 	string s;
-	for(int i=0;i<CauHoi.size();i++){
+	for(int i=0;i<CauHoi.size();i++){ // tra loi tung cau hoi
 		CH = CauHoi[i];
 		cout << "cau " << i+1 << ": "<< CH.Q <<endl;
 		cout <<"A) " << CH.dA <<endl;
@@ -63,34 +71,27 @@ void QandA(int &diem){
 		cout <<"C) " << CH.dC <<endl;
 		s=CH.A;
 		string tl;
-		cout << "tra loi:"; cin >> tl;
+		cout << "tra loi:"; cin >> tl; // nhap cau tra loi
 		if (tl==s)
-			diem++;
+			NC.diem++; // tang bo dem diem neu tra loi dung;
 	}
-	cout << "diem:" <<diem<<"\n";
 	f.close();
 }
-void Luudiem(int &diem){
-	int dem = 0;
+void Luudiem(Player &NC){ // luu diem vao file Diem
+	fstream fo("Diem.txt", ios::out | ios::app);
+	fo << "\n" << NC.diem;
+	fo.close();
+}
+void Xuatdiem(){
 	int s;
 	string st;
 	getline(f,st);
 	ifstream f("Diem.txt");
 	if (f!=NULL)
 	while (!f.eof()){
-		f >> s;
-		dem++;
-		BangDiem[dem] = s;
-	}
-	ofstream fo("Diem.txt");
-	dem++;
-	BangDiem[dem] = diem;
-	
-	cout << "diem luu:" << BangDiem[dem] << endl;
-	for (int i=1;i<=dem;i++){
-		cout << BangDiem[i] << "  ";
-		fo <<"\n"<< BangDiem[i] ;
+		f >> NC.Name; // doc ten nguoi choi
+		f >> NC.diem; // doc diem
+		cout << "ten: " << NC.Name << "\tdiem" << NC.diem << endl;
 	}
 	f.close();
-	fo.close();
 }

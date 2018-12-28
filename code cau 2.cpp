@@ -77,15 +77,16 @@ date ThemNgay(date datetime, int x){
 	}
 date TruNgay(date datetime, int x){
 	int kq,year;
-	if (x < demngay(datetime))
+	if (x < demngay(datetime)){
+		 year = datetime.year;
 		 kq = demngay(datetime)-x;
+	}
 	else {
 		year = datetime.year-1; 
 		kq = demngay(datetime) + 365 - x;
 		if (ktnhuan(datetime.year)==1 && (datetime.month>2 || (datetime.month==2 && datetime.day==29)))
 			kq++;
 		}
-		cout << kq <<endl;
 	return TimNgay(kq,year);
 }
 void InNgay(date datetime){
