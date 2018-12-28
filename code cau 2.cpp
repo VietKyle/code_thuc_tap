@@ -104,3 +104,4 @@ int main(){
 	InNgay(ThemNgay(datetime,20));
 	InNgay(TruNgay(datetime,61));
 }
+
