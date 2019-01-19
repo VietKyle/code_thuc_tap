@@ -6,6 +6,31 @@ struct date{
 	int year;
 };
 int Thang[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+int ktnhuan(int year); 					// kiem tra 1 nam co nhuan hay khong
+void InNgay(date datetime);				// xuat thong tin 1 ngay gom ngay/thang/nam
+void NhapNgay(date &datetime);			// nhap thong tin 1 ngay
+int demngay(date datetime);				// dem STT cua ngay trong nam
+date TimNgay(int x,int year);			// tim thong tin 1 ngay khi biet STT
+date ThemNgay(date datetime, int x); 	// hien thi thong tin ngay sau 1 khoang so voi ngay dang xet
+date TruNgay(date datetime, int x);		// hien thi thong tin ngay truoc 1 khoang so voi ngay dang xet
+int main(){
+	date datetime;
+	int x;
+	NhapNgay(datetime);
+	cout << "nhap dung------------\n";
+	InNgay(datetime);
+	if(ktnhuan(datetime.year)==1)
+		cout <<"nam nay la nam nhuan\n";
+	else cout <<"nam ko nhuan\n";
+	cout << "la ngay thu " <<demngay(datetime) <<" trong nam\n";
+	cout << "nhap so luong ngay can them:";
+	cin >> x;
+	InNgay(ThemNgay(datetime,x));
+	cout << "nhap so luong ngay can tru:";
+	cin >> x;
+	InNgay(TruNgay(datetime,x));
+}
+
 int ktnhuan(int year){
 	if ((year % 4 == 0 && year % 100!=0) || year % 400 == 0)
 		return 1;
@@ -91,17 +116,5 @@ date TruNgay(date datetime, int x){
 }
 void InNgay(date datetime){
 	cout <<datetime.day << "/" << datetime.month << "/" <<datetime.year <<endl;
-}
-int main(){
-	date datetime;
-	NhapNgay(datetime);
-	cout << "nhap dung------------\n";
-	InNgay(datetime);
-	if(ktnhuan(datetime.year)==1)
-		cout <<"nam nay la nam nhuan\n";
-	else cout <<"nam ko nhuan\n";
-	cout << "la ngay thu " <<demngay(datetime) <<" trong nam\n";
-	InNgay(ThemNgay(datetime,20));
-	InNgay(TruNgay(datetime,61));
 }
 

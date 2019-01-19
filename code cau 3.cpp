@@ -91,7 +91,7 @@ void Xuatdiem(){
 	while (!f.eof()){
 		f >> NC.Name; // doc ten nguoi choi
 		f >> NC.diem; // doc diem
-		cout << "ten: " << NC.Name << "\tdiem" << NC.diem << endl;
+		cout << "ten: " << NC.Name << "\tdiem: " << NC.diem << endl;
 	}
 	f.close();
 }
