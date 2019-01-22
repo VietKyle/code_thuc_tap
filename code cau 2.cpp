@@ -59,7 +59,6 @@ void NhapNgay(date &datetime){
 			kt = 1;
 	}while (kt == 1);
 }
-
 int demngay(date datetime){
 	int dem=0;
 	for(int i = 1; i < datetime.month; i++)
